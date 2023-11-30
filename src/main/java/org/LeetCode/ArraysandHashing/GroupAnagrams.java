@@ -1,9 +1,7 @@
 package org.LeetCode.ArraysandHashing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.sql.Array;
+import java.util.*;
 
 public class GroupAnagrams {
     public static void main(String[] args) {
@@ -12,28 +10,42 @@ public class GroupAnagrams {
 
     public List<List<String>> groupAnagrams(String[] strs){
         // Brute Force
-        List<List<String>> res = new ArrayList<>();
-        List<String> newStr = new ArrayList<>(Arrays.stream(strs).toList());
+//        List<List<String>> res = new ArrayList<>();
+//        List<String> newStr = new ArrayList<>(Arrays.stream(strs).toList());
+//
+//        while(!newStr.isEmpty()){
+//            String cur = newStr.get(0);
+//            List<String> anagrams = new ArrayList<>();
+//
+//            for(int i = 1; i < newStr.size(); i++){
+//                if(isAnagram(cur, newStr.get(i))){
+//                    anagrams.add(newStr.get(i));
+//                    newStr.remove(i);
+//                    i--;
+//                }
+//            }
+//            anagrams.add(cur);
+//            res.add(anagrams);
+//            newStr.remove(0);
+//        }
 
-        while(!newStr.isEmpty()){
-            String cur = newStr.get(0);
-            List<String> anagrams = new ArrayList<>();
+        Map<String, List<String>> res = new HashMap<>();
 
-            for(int i = 1; i < newStr.size(); i++){
-                if(isAnagram(cur, newStr.get(i))){
-                    anagrams.add(newStr.get(i));
-                    newStr.remove(i);
-                    i--;
-                }
+        for(String str: strs){
+            Integer[] count = new Integer[26];
+            Arrays.fill(count, 0);
+            for(int i = 0; i < str.length(); i++){
+                count[Character.getNumericValue(str.charAt(i)) - Character.getNumericValue('a')] += 1;
             }
-            anagrams.add(cur);
-            res.add(anagrams);
-            newStr.remove(0);
+
+            String coutStr = Arrays.toString(count);
+
+            res.computeIfAbsent(coutStr, k -> new ArrayList<>());
+            res.get(coutStr).add(str);
         }
 
+        return new ArrayList<List<String>>(res.values());
 
-
-        return res;
     }
 
     public boolean isAnagram(String s, String t){
