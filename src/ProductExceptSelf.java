@@ -23,7 +23,6 @@ public class ProductExceptSelf {
             }else if(i == nums.length - 1){
                 soln[i] = prefix[i - 1];
             }else{
-
                 soln[i] = prefix[i - 1] * postfix[i + 1];
             }
         }
